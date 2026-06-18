@@ -304,7 +304,7 @@
   .foot-bottom{text-align:center;padding:22px 0;font-size:.82rem;color:#6f81a0}
 
   /* ---------- REVEAL ---------- */
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform;}
   .reveal.in{opacity:1;transform:none}
 
   /* ---------- RESPONSIVE ---------- */
@@ -671,15 +671,15 @@
         <p>Preencha os dados da sua operação. Retornamos com uma proposta técnica.</p>
         <div class="form-msg" id="formMsg">Recebemos sua solicitação. Nossa equipe entrará em contato em breve.</div>
         <div class="row2">
-          <div class="field"><input type="text" placeholder="Nome"></div>
-          <div class="field"><input type="text" placeholder="Empresa"></div>
+          <div class="field"><input type="text" id="leadName" placeholder="Nome"></div>
+          <div class="field"><input type="text" id="leadCompany" placeholder="Empresa"></div>
         </div>
         <div class="row2">
-          <div class="field"><input type="email" placeholder="E-mail"></div>
-          <div class="field"><input type="tel" placeholder="WhatsApp"></div>
+          <div class="field"><input type="email" id="leadEmail" placeholder="E-mail"></div>
+          <div class="field"><input type="tel" id="leadPhone" placeholder="WhatsApp"></div>
         </div>
         <div class="field">
-          <select>
+          <select id="leadType">
             <option value="">Tipo de operação</option>
             <option>Içamento de cargas pesadas</option>
             <option>Locação de guindaste</option>
@@ -690,8 +690,8 @@
             <option>Apoio em parada de manutenção</option>
           </select>
         </div>
-        <div class="field"><textarea placeholder="Mensagem / detalhes da carga (peso, local, prazo)"></textarea></div>
-        <button class="btn btn-primary" style="width:100%;justify-content:center" id="submitBtn"><span class="ico">→</span>Solicitar orçamento</button>
+        <div class="field"><textarea id="leadMessage" placeholder="Mensagem / detalhes da carga (peso, local, prazo)"></textarea></div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" id="submitBtn"><span class="ico" id="submitIco">→</span><span id="submitText">Solicitar orçamento</span></button>
       </div>
     </div>
   </div>
@@ -758,7 +758,18 @@
   <div class="foot-bottom">© 2026 Nova Rental. Todos os direitos reservados.</div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  // SUPABASE INTEGRATION (Aguardando credenciais do usuário)
+  const SUPABASE_URL = 'https://qoxxbljwwrzxouvxngqx.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFveHhibGp3d3J6eG91dnhuZ3F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3Mzg1NDcsImV4cCI6MjA5NzMxNDU0N30.4m-S7yrmQpBOxnjVmdWIn4ktMDAog7Q4WkSZZY1OjE0';
+  
+  // Inicialize apenas se as chaves forem configuradas
+  let supabase = null;
+  if(SUPABASE_URL !== 'SUA_SUPABASE_URL_AQUI') {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+
   // sticky header
   const header=document.getElementById('header');
   window.addEventListener('scroll',()=>header.classList.toggle('solid',window.scrollY>20));
@@ -777,15 +788,98 @@
     });
   });
 
-  // form mock
-  document.getElementById('submitBtn').addEventListener('click',()=>{
-    document.getElementById('formMsg').style.display='block';
-    document.getElementById('formMsg').scrollIntoView({behavior:'smooth',block:'center'});
+  // form submit
+  document.getElementById('submitBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('submitBtn');
+    const ico = document.getElementById('submitIco');
+    const txt = document.getElementById('submitText');
+    const msg = document.getElementById('formMsg');
+    
+    // Obter valores
+    const name = document.getElementById('leadName').value;
+    const company = document.getElementById('leadCompany').value;
+    const email = document.getElementById('leadEmail').value;
+    const phone = document.getElementById('leadPhone').value;
+    const type = document.getElementById('leadType').value;
+    const message = document.getElementById('leadMessage').value;
+
+    if(!name || !phone) {
+      msg.style.display = 'block';
+      msg.style.color = '#e60e0e';
+      msg.style.backgroundColor = '#fce8e8';
+      msg.style.borderColor = '#f5c6c6';
+      msg.innerText = 'Por favor, preencha pelo menos Nome e WhatsApp.';
+      msg.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+
+    // Estado de Loading
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    ico.innerText = '↻';
+    txt.innerText = 'Enviando...';
+    
+    if(supabase) {
+      try {
+        const { data, error } = await supabase
+          .from('leads')
+          .insert([
+            { name, company, email, phone, operation_type: type, message }
+          ]);
+          
+        if (error) throw error;
+        
+        // Sucesso
+        msg.style.display = 'block';
+        msg.style.color = 'var(--brand-deep)';
+        msg.style.backgroundColor = 'rgba(14,95,230,.08)';
+        msg.style.borderColor = 'rgba(14,95,230,.25)';
+        msg.innerText = 'Recebemos sua solicitação. Nossa equipe entrará em contato em breve.';
+        
+        // Limpar formulário
+        document.querySelectorAll('.contact-form input, .contact-form textarea, .contact-form select').forEach(el => el.value = '');
+        
+      } catch (error) {
+        console.error('Erro ao enviar:', error);
+        msg.style.display = 'block';
+        msg.style.color = '#e60e0e';
+        msg.style.backgroundColor = '#fce8e8';
+        msg.innerText = 'Houve um erro ao enviar. Tente novamente ou use o WhatsApp.';
+      }
+    } else {
+      // Mock de sucesso se o Supabase não estiver configurado
+      setTimeout(() => {
+        msg.style.display = 'block';
+        msg.style.color = 'var(--brand-deep)';
+        msg.style.backgroundColor = 'rgba(14,95,230,.08)';
+        msg.innerText = 'Modo teste: O Supabase ainda não está configurado. Simulação de sucesso!';
+      }, 1000);
+    }
+    
+    setTimeout(() => {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      ico.innerText = '→';
+      txt.innerText = 'Solicitar orçamento';
+      msg.scrollIntoView({behavior:'smooth',block:'center'});
+    }, 1000);
   });
 
-  // scroll reveal
+  // scroll reveal with stagger
   const io=new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    let delay = 0;
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        setTimeout(() => {
+          e.target.classList.add('in');
+        }, delay);
+        // Só aplica o stagger se o elemento for um card em grid (tem irmãos sendo revelados juntos)
+        if(e.target.classList.contains('seg-card') || e.target.classList.contains('equip-card') || e.target.classList.contains('case-card') || e.target.classList.contains('proc-card') || e.target.classList.contains('diff-card')) {
+           delay += 120;
+        }
+        io.unobserve(e.target);
+      }
+    });
   },{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
