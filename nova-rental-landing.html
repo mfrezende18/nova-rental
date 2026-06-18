@@ -79,7 +79,7 @@
   header{position:sticky;top:0;z-index:60;background:rgba(8,17,35,.72);
     backdrop-filter:blur(12px);border-bottom:1px solid var(--line-dark);transition:.3s}
   header.solid{background:var(--navy)}
-  .nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:90px}
   .logo{display:flex;align-items:center;gap:11px;font-family:'Archivo';font-weight:900;
     color:#fff;font-size:1.32rem;letter-spacing:.01em}
   .logo .mark{width:38px;height:38px;border-radius:9px;
@@ -352,11 +352,8 @@
 <!-- NAV -->
 <header id="header">
   <div class="wrap nav">
-    <a href="#" class="logo">
-      <span class="mark">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l8-5 8 5M9 21v-6h4v6"/><path d="M13 3l6 4"/></svg>
-      </span>
-      NOVA<small>RENTAL</small>
+    <a href="#" class="logo" style="display:flex; align-items:center;">
+      <img src="img/logo.png" alt="Nova Rental" style="height:48px; width:auto;">
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#inicio">Início</a></li>
@@ -364,7 +361,7 @@
       <li><a href="#equipamentos">Equipamentos</a></li>
       <li><a href="#operacoes">Operações</a></li>
       <li><a href="#processo">Processo</a></li>
-      <li><a href="#faq">FAQ</a></li>
+
     </ul>
     <div class="nav-cta">
       <a href="#contato" class="btn btn-primary"><span class="ico">→</span>Solicitar orçamento</a>
@@ -379,7 +376,7 @@
     <div class="hero-grid">
       <div class="hero-copy">
         <span class="eyebrow light">Movimentação e içamento de cargas pesadas</span>
-        <h1>Precisão para<br>grandes <span class="accent">operações</span></h1>
+        <h1 style="text-transform: uppercase;">Precisão para<br>grandes <span class="accent">operações</span></h1>
         <p class="lead">A Nova Rental movimenta, iça e posiciona cargas pesadas para obras, indústrias e logística — com planejamento técnico, equipe qualificada e frota moderna onde o erro não é uma opção.</p>
         <div class="hero-actions">
           <a href="#contato" class="btn btn-primary"><span class="ico">→</span>Solicitar orçamento</a>
@@ -697,33 +694,15 @@
   </div>
 </section>
 
-<!-- FAQ -->
-<section class="section" id="faq">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="eyebrow">FAQ</span>
-      <h2>Dúvidas frequentes</h2>
-      <p>Esclarecemos os principais pontos sobre nossa atuação, equipamentos e operações.</p>
-    </div>
-    <div class="faq-list">
-      <div class="faq-item reveal"><button class="faq-q">A Nova Rental faz o planejamento e a análise de risco da operação?<span class="pm">+</span></button><div class="faq-a"><p>Sim. Cada operação começa com a análise técnica da carga, do local e dos riscos envolvidos, definindo equipamentos, rigging e a sequência de execução antes da mobilização.</p></div></div>
-      <div class="faq-item reveal"><button class="faq-q">Quais equipamentos estão disponíveis para locação?<span class="pm">+</span></button><div class="faq-a"><p>Trabalhamos com guindastes, caminhões munck, plataformas elevatórias e empilhadeiras, todos revisados e operados por profissionais qualificados.</p></div></div>
-      <div class="faq-item reveal"><button class="faq-q">Vocês atendem operações em indústrias e paradas de manutenção?<span class="pm">+</span></button><div class="faq-a"><p>Sim. Atendemos obras, indústrias e logística, com apoio em montagens industriais e paradas de manutenção, priorizando agilidade e o menor impacto na sua rotina.</p></div></div>
-      <div class="faq-item reveal"><button class="faq-q">Qual a capacidade de carga e o alcance dos equipamentos?<span class="pm">+</span></button><div class="faq-a"><p>Dispomos de equipamentos com diferentes capacidades e alcances. Informe o peso, as dimensões e o local da carga que indicamos a melhor solução para a sua operação.</p></div></div>
-      <div class="faq-item reveal"><button class="faq-q">A equipe é certificada para içamento e trabalho em altura?<span class="pm">+</span></button><div class="faq-a"><p>Nossa equipe é treinada e segue padrões rigorosos de segurança operacional em todas as etapas. [Confirmar conformidade com as normas aplicáveis — ex.: NR-11, NR-12, NR-35.]</p></div></div>
-      <div class="faq-item reveal"><button class="faq-q">Como solicito um orçamento?<span class="pm">+</span></button><div class="faq-a"><p>Basta preencher o formulário nesta página ou falar diretamente pelo WhatsApp (19) 99427-6272. Retornamos com uma proposta técnica sob medida.</p></div></div>
-    </div>
-  </div>
-</section>
+
 
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a href="#" class="logo">
-          <span class="mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l8-5 8 5M9 21v-6h4v6"/><path d="M13 3l6 4"/></svg></span>
-          NOVA<small>RENTAL</small>
+        <a href="#" class="logo" style="display:flex; align-items:center;">
+          <img src="img/logo.png" alt="Nova Rental" style="height:56px; width:auto;">
         </a>
         <p>Movimentação e içamento de cargas, locação de equipamentos e soluções operacionais para obras, indústrias e logística.</p>
         <p class="foot-slogan">Movimentamos cargas. <span class="accent">Entregamos soluções.</span></p>
@@ -786,14 +765,7 @@
   burger.addEventListener('click',()=>navLinks.classList.toggle('open'));
   navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
 
-  // FAQ accordion
-  document.querySelectorAll('.faq-q').forEach(q=>{
-    q.addEventListener('click',()=>{
-      const item=q.parentElement,a=q.nextElementSibling,open=item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight=null;});
-      if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
-    });
-  });
+
 
   // form submit
   document.getElementById('submitBtn').addEventListener('click', async () => {
