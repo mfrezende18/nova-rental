@@ -760,15 +760,22 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // SUPABASE INTEGRATION (Aguardando credenciais do usuário)
+  // SUPABASE INTEGRATION
   const SUPABASE_URL = 'https://qoxxbljwwrzxouvxngqx.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFveHhibGp3d3J6eG91dnhuZ3F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3Mzg1NDcsImV4cCI6MjA5NzMxNDU0N30.4m-S7yrmQpBOxnjVmdWIn4ktMDAog7Q4WkSZZY1OjE0';
   
-  // Inicialize apenas se as chaves forem configuradas
   let supabase = null;
-  if(SUPABASE_URL !== 'SUA_SUPABASE_URL_AQUI') {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  try {
+    if (window.supabase) {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } else {
+      console.warn('Supabase SDK não foi carregado pelo CDN.');
+    }
+  } catch(e) {
+    console.error('Erro ao inicializar Supabase:', e);
   }
+</script>
+<script>
 
   // sticky header
   const header=document.getElementById('header');
